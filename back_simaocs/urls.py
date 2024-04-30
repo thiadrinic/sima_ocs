@@ -7,6 +7,7 @@ from . import views
 router = routers.DefaultRouter()
 
 router.register(r'hardware', views.HardwareViewSet, 'hardware')
+router.register(r'vista_equipos', views.Vista_EquiposViewSet, 'vista_equipos')
 
 urlpatterns = [
     path('api/', include(router.urls)),

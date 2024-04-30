@@ -1,18 +1,17 @@
-import  {BrowserRouter, Routes,Route} from 'react-router-dom'
-import { Hardware } from './pages/Hardware'
-import { HardwareListado } from './components/HardwareListado'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Base } from "./pages/Base";
+import { HardwareListado } from "./components/HardwareListado";
 
 function App() {
-
   return (
     <BrowserRouter>
-        <Routes>
-            <Route path="/Listado" element={<Hardware />} />
-             <Route path="/Listar" element={<HardwareListado />} />
-        </Routes>
-    </BrowserRouter>
+      <Routes>
+        <Route path="/Base" element={<Base />} />
 
-  )
+        <Route path="/Listar" element={<HardwareListado />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;

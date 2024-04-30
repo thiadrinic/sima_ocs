@@ -43,3 +43,32 @@ class Hardware(models.Model):
     class Meta:
         managed = False
         db_table = 'hardware'
+
+class Vista_Equipos(models.Model):
+    SSN = models.CharField(max_length=255, null=True, blank=True)
+    smanufacturer = models.CharField(max_length=255, null=True, blank=True)
+    smodel = models.CharField(max_length=255, null=True, blank=True)
+    type = models.CharField(max_length=255, null=True, blank=True)
+    bversion = models.CharField(max_length=255, null=True, blank=True)
+    bdate = models.CharField(max_length=255, null=True, blank=True)
+    id =models.CharField(primary_key=True,max_length=255)
+    Equipo = models.CharField(max_length=255, null=True, blank=True)
+    SO = models.CharField(max_length=255, null=True, blank=True)
+    Osversion = models.CharField(max_length=255, null=True, blank=True)
+    PROCESSORT = models.CharField(max_length=255, null=True, blank=True)
+    RAM = models.CharField(max_length=255, null=True, blank=True)
+    ARCH = models.CharField(max_length=255, null=True, blank=True)
+    MON_MANUFACTURER= models.CharField(max_length=255, null=True, blank=True)
+    MON_CAPTION = models.CharField(max_length=255, null=True, blank=True)
+    MON_SERIAL = models.CharField(max_length=255, null=True, blank=True)
+    VID_NAME = models.CharField(max_length=255, null=True, blank=True)
+    VID_MEMORY = models.CharField(max_length=255, null=True, blank=True)
+    MACADDR = models.CharField(max_length=255, null=True, blank=True)
+    IPADDRESS = models.CharField(max_length=255, null=True, blank=True)
+    Tipo = models.CharField(max_length=255, null=True, blank=True)
+    Semaforo = models.CharField(max_length=255, null=True, blank=True)
+    fecha = models.CharField(max_length=255, null=True, blank=True)
+
+    class Meta:
+        managed = False
+        db_table = 'Vista_Equipos'
