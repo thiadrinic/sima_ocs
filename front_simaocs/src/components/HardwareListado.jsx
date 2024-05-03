@@ -6,9 +6,7 @@ export function HardwareListado() {
 
   useEffect(() => {
     async function loadHardware() {
-      const lst = await axios.get(
-        "http://127.0.0.1:8000/hardware/api/vista_equipos/"
-      );
+      const lst = await axios.get("http://127.0.0.1:8000/equipos/api/equipos/");
       setHardware(lst.data);
     }
     loadHardware();
@@ -256,13 +254,16 @@ export function HardwareListado() {
                     Nombre Equipo
                   </th>
                   <th className="text-gray-600 dark:text-gray-400 font-normal pr-6 text-left text-sm tracking-normal leading-4">
-                    Inventario
+                    Cod Inventario
                   </th>
                   <th className="text-gray-600 dark:text-gray-400 font-normal pr-6 text-left text-sm tracking-normal leading-4">
                     Ubicacion
                   </th>
                   <th className="text-gray-600 dark:text-gray-400 font-normal pr-6 text-left text-sm tracking-normal leading-4">
-                    Date
+                    IP
+                  </th>
+                  <th className="text-gray-600 dark:text-gray-400 font-normal pr-6 text-left text-sm tracking-normal leading-4">
+                    Acciones
                   </th>
                 </tr>
               </thead>
@@ -298,16 +299,19 @@ export function HardwareListado() {
                       </div>
                     </td>
                     <td className="text-sm pr-6 whitespace-no-wrap text-gray-800 dark:text-gray-100 tracking-normal leading-4">
-                      {data.Equipo}
+                      {data.Nombre}
                     </td>
                     <td className="text-sm pr-6 whitespace-no-wrap text-gray-800 dark:text-gray-100 tracking-normal leading-4">
-                      {data.SSN}
+                      {data.Inventario}
                     </td>
                     <td className="text-sm pr-6 whitespace-no-wrap text-gray-800 dark:text-gray-100 tracking-normal leading-4">
-                      Carrie Anthony
+                      {data.Ubicacion}
                     </td>
                     <td className="text-sm pr-6 whitespace-no-wrap text-gray-800 dark:text-gray-100 tracking-normal leading-4">
-                      $2,500
+                      {data.IPADDRESS}
+                    </td>
+                    <td className="text-sm pr-6 whitespace-no-wrap text-gray-800 dark:text-gray-100 tracking-normal leading-4">
+                      {data.Ubicacion}
                     </td>
                   </tr>
                 ))}

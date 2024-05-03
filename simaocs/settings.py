@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'coreapi',
-    'back_simaocs',
+    'backend',
 ]
 
 MIDDLEWARE = [
@@ -85,6 +85,14 @@ DATABASES = {
         'PORT': '3306',
     },
     'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'SimaURP-OCS',
+        'USER': 'itop_usr',
+        'PASSWORD': '170Pu5r2o17',
+        'HOST': '192.168.80.151',
+        'PORT': '3306',
+    },
+    'default2': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'ocsweb',
         'USER': 'ocsweb',
