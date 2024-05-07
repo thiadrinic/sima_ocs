@@ -92,12 +92,12 @@ DATABASES = {
         'HOST': '192.168.80.151',
         'PORT': '3306',
     },
-    'default2': {
+    'sima': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'ocsweb',
-        'USER': 'ocsweb',
-        'PASSWORD': 'y5P4FmqrkMZP',
-        'HOST': '192.168.81.218',
+        'NAME': 'iTopDB',
+        'USER': 'itop_usr',
+        'PASSWORD': '170Pu5r2o17',
+        'HOST': '192.168.80.151',
         'PORT': '3306',
     },
 }

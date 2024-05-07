@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import Equipo_Hardware from "./Equipo_Hardware";
+import { Equipo_periferico } from "./Equipo_periferico";
 const Equipo_pagina = () => {
   const [activeStatus, setActiveStatus] = useState(1);
   return (
@@ -146,6 +148,14 @@ const Equipo_pagina = () => {
             )}
           </li>
         </ul>
+      </div>
+
+      <div className="bg-white shadow-md rounded-md h-[400px] w-[1080px] border border-black mt-4">
+        {activeStatus == 1 &&  <Equipo_Hardware />}
+
+        {activeStatus == 2 && <h1>Hola mundo2</h1>}
+
+        {activeStatus == 3 && <Equipo_periferico />}
       </div>
     </div>
   );

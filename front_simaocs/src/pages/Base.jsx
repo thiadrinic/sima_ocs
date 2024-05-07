@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { HardwareListado } from "../components/HardwareListado";
+import { Outlet } from "react-router-dom";
 export function Base() {
   const [show, setShow] = useState(false);
   const [product, setProduct] = useState(false);
@@ -83,11 +84,9 @@ export function Base() {
         {/* Page title ends */}
         <div className="container px-6 mx-auto">
           {/* Remove class [ h-64 ] when adding a card block */}
-          <div className="rounded shadow relative bg-white z-10 -mt-8 mb-8 w-full h-64">
-            {
-              /* Place your content here */
-              <HardwareListado></HardwareListado>
-            }
+          <div className="rounded shadow relative bg-white z-10 -mt-8 mb-8 w-full">
+              {/* <HardwareListado></HardwareListado> */}
+              <Outlet/>
           </div>
         </div>
       </div>

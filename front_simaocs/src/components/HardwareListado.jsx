@@ -1,8 +1,14 @@
-import { useEffect, useState, React } from "react";
+import { useEffect, useState, React, useMemo } from "react";
+import TablePagination from "@mui/material/TablePagination";
+import { downloadExcel } from "react-export-table-to-excel";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 export function HardwareListado() {
+  const [show, setShow] = useState(null)
   const [Hardwars, setHardware] = useState([]);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
 
   useEffect(() => {
     async function loadHardware() {
@@ -11,9 +17,44 @@ export function HardwareListado() {
     }
     loadHardware();
   }, []);
+
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+  const visibleRows = useMemo(
+    () => Hardwars.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
+    [Hardwars,page, rowsPerPage]
+  );
+
+  const header =  ["CENSO", "NOMBRE DE EQUIPO", "COD INVENTARIO", "UBICACIÓN", "IP"]
+  const body = Hardwars.map(data => ({
+    Semaforo: data.Semaforo,
+    Nombre: data.Nombre,
+    inventario: data.inventario,
+    ubicacion: data.ubicacion,
+    IPADDRESS: data.IPADDRESS
+  }))
+
+  
+  const getDay = new Date().toLocaleDateString().split("/").join("-")
+  const getHours = new Date().getHours()
+  const getMinutes = new Date().getMinutes()
+
+
+
   return (
     <>
       <div className="py-20">
+        <div>
+          <h1>Listado de Equipos</h1>
+        </div>
         <div className="mx-auto container bg-white dark:bg-gray-800 shadow rounded">
           <div className="flex flex-col lg:flex-row p-4 lg:p-8 justify-between items-start lg:items-stretch w-full">
             <div className="w-full lg:w-1/3 flex flex-col lg:flex-row items-start lg:items-center">
@@ -129,108 +170,23 @@ export function HardwareListado() {
               </div>
             </div>
             <div className="w-full lg:w-2/3 flex flex-col lg:flex-row items-start lg:items-center justify-end">
-              <div className="flex items-center lg:border-l lg:border-r border-gray-300 dark:border-gray-200 py-3 lg:py-0 lg:px-6">
-                <p
-                  className="text-base text-gray-600 dark:text-gray-400"
-                  id="page-view"
-                >
-                  Viewing 1 - 20 of 60
-                </p>
-                <a
-                  className="text-gray-600 dark:text-gray-400 ml-2 border-transparent border cursor-pointer rounded"
-                  onClick={() => {
-                    pageView(false);
-                  }}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="icon icon-tabler icon-tabler-chevron-left"
-                    width={20}
-                    height={20}
-                    viewBox="0 0 24 24"
-                    strokeWidth="1.5"
-                    stroke="currentColor"
-                    fill="none"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path stroke="none" d="M0 0h24v24H0z" />
-                    <polyline points="15 6 9 12 15 18" />
-                  </svg>
-                </a>
-                <a
-                  className="text-gray-600 dark:text-gray-400 border-transparent border rounded focus:outline-none cursor-pointer"
-                  onClick={() => {
-                    pageView(true);
-                  }}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="icon icon-tabler icon-tabler-chevron-right"
-                    width={20}
-                    height={20}
-                    viewBox="0 0 24 24"
-                    strokeWidth="1.5"
-                    stroke="currentColor"
-                    fill="none"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path stroke="none" d="M0 0h24v24H0z" />
-                    <polyline points="9 6 15 12 9 18" />
-                  </svg>
-                </a>
-              </div>
-              <div className="flex items-center lg:border-r border-gray-300 dark:border-gray-200 pb-3 lg:pb-0 lg:px-6">
-                <div className="relative w-32 z-10">
-                  <div className="pointer-events-none text-gray-600 dark:text-gray-400 absolute inset-0 m-auto mr-2 xl:mr-4 z-0 w-5 h-5">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="icon cursor-pointer icon-tabler icon-tabler-chevron-down"
-                      width={20}
-                      height={20}
-                      viewBox="0 0 24 24"
-                      strokeWidth="1.5"
-                      stroke="currentColor"
-                      fill="none"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <path stroke="none" d="M0 0h24v24H0z" />
-                      <polyline points="6 9 12 15 18 9" />
-                    </svg>
-                  </div>
-                  <select
-                    aria-label="Selected tab"
-                    className="focus:outline-none border border-transparent focus:border-gray-800 focus:shadow-outline-gray text-base form-select block w-full py-2 px-2 xl:px-3 rounded text-gray-600 dark:text-gray-400 appearance-none bg-transparent"
-                  >
-                    <option>List View</option>
-                    <option>Grid View</option>
-                  </select>
-                </div>
-              </div>
+              <div className="flex items-center lg:border-l lg:border-r border-gray-300 dark:border-gray-200 py-3 lg:py-0 lg:px-6"></div>
               <div className="lg:ml-6 flex items-center">
-                <button className="bg-gray-200 transition duration-150 ease-in-out focus:outline-none border border-transparent focus:border-gray-800 focus:shadow-outline-gray hover:bg-gray-300 rounded text-indigo-700 px-5 h-8 flex items-center text-sm">
-                  Download All
+                <button
+                  onClick={() => {
+                    downloadExcel({
+                      fileName: `Lista de equipos - ${getDay} - ${getHours}_${getMinutes}`,
+                      sheet: "Lista de equipos",
+                      tablePayload: {
+                        header,
+                        body,
+                      },
+                    });
+                  }}
+                  className="bg-gray-200 transition duration-150 ease-in-out focus:outline-none border border-transparent focus:border-gray-800 focus:shadow-outline-gray hover:bg-gray-300 rounded text-indigo-700 px-5 h-8 flex items-center text-sm"
+                >
+                  Descargar Lista
                 </button>
-                <div className="text-white ml-4 cursor-pointer focus:outline-none border border-transparent focus:border-gray-800 focus:shadow-outline-gray bg-indigo-700 transition duration-150 ease-in-out hover:bg-indigo-600 w-8 h-8 rounded flex items-center justify-center">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="icon icon-tabler icon-tabler-plus"
-                    width={28}
-                    height={28}
-                    viewBox="0 0 24 24"
-                    strokeWidth="1.5"
-                    stroke="currentColor"
-                    fill="none"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path stroke="none" d="M0 0h24v24H0z" />
-                    <line x1={12} y1={5} x2={12} y2={19} />
-                    <line x1={5} y1={12} x2={19} y2={12} />
-                  </svg>
-                </div>
               </div>
             </div>
           </div>
@@ -268,7 +224,7 @@ export function HardwareListado() {
                 </tr>
               </thead>
               <tbody>
-                {Hardwars.map((data, index) => (
+                {visibleRows.map((data, index) => (
                   <tr
                     key={index}
                     className="h-24 border-gray-300 dark:border-gray-200 border-b"
@@ -302,16 +258,100 @@ export function HardwareListado() {
                       {data.Nombre}
                     </td>
                     <td className="text-sm pr-6 whitespace-no-wrap text-gray-800 dark:text-gray-100 tracking-normal leading-4">
-                      {data.Inventario}
+                      {data.inventario == "" ? "-" : data.inventario}
                     </td>
                     <td className="text-sm pr-6 whitespace-no-wrap text-gray-800 dark:text-gray-100 tracking-normal leading-4">
-                      {data.Ubicacion}
+                      {data.ubicacion == "" ? "-" : data.ubicacion}
                     </td>
                     <td className="text-sm pr-6 whitespace-no-wrap text-gray-800 dark:text-gray-100 tracking-normal leading-4">
                       {data.IPADDRESS}
                     </td>
                     <td className="text-sm pr-6 whitespace-no-wrap text-gray-800 dark:text-gray-100 tracking-normal leading-4">
-                      {data.Ubicacion}
+                      {show == 2 ? (
+                        <button
+                          onClick={() => setShow(null)}
+                          className="focus:outline-none pl-7"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width={20}
+                            height={20}
+                            viewBox="0 0 20 20"
+                            fill="none"
+                          >
+                            <path
+                              d="M4.16667 10.8334C4.62691 10.8334 5 10.4603 5 10.0001C5 9.53984 4.62691 9.16675 4.16667 9.16675C3.70643 9.16675 3.33334 9.53984 3.33334 10.0001C3.33334 10.4603 3.70643 10.8334 4.16667 10.8334Z"
+                              stroke="#A1A1AA"
+                              strokeWidth="1.25"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                            <path
+                              d="M10 10.8334C10.4602 10.8334 10.8333 10.4603 10.8333 10.0001C10.8333 9.53984 10.4602 9.16675 10 9.16675C9.53976 9.16675 9.16666 9.53984 9.16666 10.0001C9.16666 10.4603 9.53976 10.8334 10 10.8334Z"
+                              stroke="#A1A1AA"
+                              strokeWidth="1.25"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                            <path
+                              d="M15.8333 10.8334C16.2936 10.8334 16.6667 10.4603 16.6667 10.0001C16.6667 9.53984 16.2936 9.16675 15.8333 9.16675C15.3731 9.16675 15 9.53984 15 10.0001C15 10.4603 15.3731 10.8334 15.8333 10.8334Z"
+                              stroke="#A1A1AA"
+                              strokeWidth="1.25"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => setShow(2)}
+                          className="focus:outline-none pl-7"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width={20}
+                            height={20}
+                            viewBox="0 0 20 20"
+                            fill="none"
+                          >
+                            <path
+                              d="M4.16667 10.8334C4.62691 10.8334 5 10.4603 5 10.0001C5 9.53984 4.62691 9.16675 4.16667 9.16675C3.70643 9.16675 3.33334 9.53984 3.33334 10.0001C3.33334 10.4603 3.70643 10.8334 4.16667 10.8334Z"
+                              stroke="#A1A1AA"
+                              strokeWidth="1.25"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                            <path
+                              d="M10 10.8334C10.4602 10.8334 10.8333 10.4603 10.8333 10.0001C10.8333 9.53984 10.4602 9.16675 10 9.16675C9.53976 9.16675 9.16666 9.53984 9.16666 10.0001C9.16666 10.4603 9.53976 10.8334 10 10.8334Z"
+                              stroke="#A1A1AA"
+                              strokeWidth="1.25"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                            <path
+                              d="M15.8333 10.8334C16.2936 10.8334 16.6667 10.4603 16.6667 10.0001C16.6667 9.53984 16.2936 9.16675 15.8333 9.16675C15.3731 9.16675 15 9.53984 15 10.0001C15 10.4603 15.3731 10.8334 15.8333 10.8334Z"
+                              stroke="#A1A1AA"
+                              strokeWidth="1.25"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
+                        </button>
+                      )}
+                      {show == 2 && (
+                        <div className="dropdown-content bg-white shadow w-24 absolute z-30 right-0 mr-6 ">
+                          <div className="text-xs w-full hover:bg-indigo-700 py-4 px-4 cursor-pointer hover:text-white">
+                            <p>Editar</p>
+                          </div>
+                          <button>
+                            <div className="text-xs w-full hover:bg-indigo-700 py-4 px-4 cursor-pointer hover:text-white">
+                              <Link to= {`/equipo/${data.id}`}> 
+                              <p>Ingresar</p>
+                              </Link>
+                            </div>
+                          </button>
+                        </div>
+                      )}
                     </td>
                   </tr>
                 ))}
@@ -319,6 +359,16 @@ export function HardwareListado() {
             </table>
           </div>
         </div>
+        <TablePagination
+          labelRowsPerPage="Equipos por página"
+          rowsPerPageOptions={[5, 10, 25]}
+          component="div"
+          count={Hardwars.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
       </div>
     </>
   );

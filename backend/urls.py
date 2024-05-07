@@ -7,8 +7,10 @@ from . import views
 
 router = routers.DefaultRouter()
 router.register(r'equipos', views.Sima_EquiposViewSet, 'equipos')
+router.register(r'perifericos', views.Sima_PerifericosViewSet, 'perifericos')
 
 urlpatterns = [
     path('api/', include(router.urls)),
     path('docs/', include_docs_urls(title='Simaocs API')),
+    path('test/', views.Pruebas),
 ]

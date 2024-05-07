@@ -16,3 +16,16 @@ class sima_equipo(models.Model):
     class Meta:
         managed = False
         db_table = 'sima_equipo'
+
+
+class sima_equipo_perifericos(models.Model):
+    id=models.IntegerField(default=0,primary_key=True)
+    equipo_id=models.IntegerField(default=0)
+    tipo_perif=models.CharField(max_length=255)
+    marca_perif=models.CharField(max_length=255)
+    modelo_perif = models.CharField(max_length=255)
+    inventario_perif = models.CharField(max_length=255)
+    estado_perif = models.CharField(max_length=255)
+    class Meta:
+        managed = False
+        db_table = 'sima_equipo_perif'
