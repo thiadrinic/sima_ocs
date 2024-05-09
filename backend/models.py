@@ -22,6 +22,7 @@ class sima_equipo_perifericos(models.Model):
     id=models.IntegerField(default=0,primary_key=True)
     equipo_id=models.IntegerField(default=0)
     tipo_perif=models.CharField(max_length=255)
+    serie_perif=models.CharField(max_length=255)
     marca_perif=models.CharField(max_length=255)
     modelo_perif = models.CharField(max_length=255)
     inventario_perif = models.CharField(max_length=255)
@@ -29,3 +30,60 @@ class sima_equipo_perifericos(models.Model):
     class Meta:
         managed = False
         db_table = 'sima_equipo_perif'
+
+class sima_equipo_software(models.Model):
+    id=models.IntegerField(default=0,primary_key=True)
+    id_equipo=models.IntegerField(default=0)
+    software=models.CharField(max_length=255)
+    distribuidor = models.CharField(max_length=255)
+    version=models.CharField(max_length=255)
+    class Meta:
+        managed = False
+        db_table = 'sima_equipo_software'
+
+class sima_mantenimiento(models.Model):
+
+    class Meta:
+        managed = False
+        db_table = 'sima_mantenimiento'
+
+
+class sima_servicio(models.Model):
+    id = models.AutoField(primary_key=True)
+    id_equipo = models.IntegerField(null=True, blank=True)
+    ticket = models.CharField(max_length=45, null=True, blank=True)
+    id_agente = models.IntegerField(null=True, blank=True)
+    fecha = models.DateField(null=True, blank=True)
+    solicitud = models.CharField(max_length=150, null=True, blank=True)
+    detalle = models.CharField(max_length=500, null=True, blank=True)
+    recomendacion = models.CharField(max_length=500, null=True, blank=True)
+    id_cliente = models.IntegerField(null=True, blank=True)
+    class Meta:
+        managed = False
+        db_table = 'sima_servicio'
+
+class sima_unidad(models.Model):
+    id = models.AutoField(primary_key=True)
+    nomenclatura = models.CharField(max_length=45, null=True, blank=True)
+    unidad = models.CharField(max_length=100, null=True, blank=True)
+    class Meta:
+        managed = False
+        db_table = 'sima_unidad'
+
+class sima_hardware(models.Model):
+    id = models.AutoField(primary_key=True)
+    id_equipo = models.IntegerField(default=None, null=True)
+    motherboard = models.CharField(max_length=45, default=None, null=True)
+    processor = models.CharField(max_length=100, default=None, null=True)
+    slots_memory = models.CharField(max_length=45, default=None, null=True)
+    memory = models.CharField(max_length=45, default=None, null=True)
+    hdd1 = models.CharField(max_length=45, default=None, null=True)
+    hdd2 = models.CharField(max_length=45, default=None, null=True)
+    typessd = models.CharField(max_length=45, default=None, null=True)
+    sdd = models.CharField(max_length=45, default=None, null=True)
+    gpu = models.CharField(max_length=45, default=None, null=True)
+    ethernet_card = models.CharField(max_length=45, default=None, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'sima_hardware'

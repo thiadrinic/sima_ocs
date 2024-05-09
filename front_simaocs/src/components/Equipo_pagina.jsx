@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import Equipo_Hardware from "./Equipo_Hardware";
 import { Equipo_periferico } from "./Equipo_periferico";
-const Equipo_pagina = () => {
+import { Equipo_software } from "./Equipo_software";
+const Equipo_pagina = ({equipo}) => {
   const [activeStatus, setActiveStatus] = useState(1);
+
+  console.log(equipo)
   return (
     <div>
       <div className="sm:hidden relative w-11/12 mx-auto bg-white rounded">
@@ -153,9 +156,9 @@ const Equipo_pagina = () => {
       <div className="bg-white shadow-md rounded-md h-[400px] w-[1080px] border border-black mt-4">
         {activeStatus == 1 &&  <Equipo_Hardware />}
 
-        {activeStatus == 2 && <h1>Hola mundo2</h1>}
+        {activeStatus == 2 && <Equipo_software equipo={equipo}/>}
 
-        {activeStatus == 3 && <Equipo_periferico />}
+        {activeStatus == 3 && <Equipo_periferico equipo={equipo}/>}
       </div>
     </div>
   );

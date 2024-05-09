@@ -77,7 +77,7 @@ export function Equipo() {
                 <hr className="absolute top-0 h-1 w-2/3 rounded bg-indigo-600" />
               </div>
               <div className="flex flex-col lg:flex-row items-start lg:items-center">
-                <Equipo_pagina />
+                <Equipo_pagina equipo={equipo} />
               </div>
             </div>
             {/* Card code block end */}

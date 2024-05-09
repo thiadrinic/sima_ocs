@@ -113,3 +113,37 @@ def Actualizar_Perifericos_Mouse(request):
                             [e[0], 'MS', periferico[4], periferico[2],periferico[3], periferico[5], '1']
                         )
     return HttpResponse("ok")
+
+def Actualizar_Software(request):
+    with connections['default'].cursor() as cursor:
+        cursor.execute("SELECT * FROM sima_equipo")
+        equipo = cursor.fetchall()
+        for e in equipo:
+            with connections['ocs'].cursor() as sima_cursor:
+                sima_cursor.execute("SELECT  ssn, name, PUBLISHER, VERSION FROM Vista_Software "
+                                    "WHERE ssn= %s ", [e[1]])
+                softwares = sima_cursor.fetchall()
+                for software in softwares:
+                    with connections['default'].cursor() as sima_save_cursor:
+                        sima_save_cursor.execute("Insert into sima_equipo_software (id_equipo, software, version, distribuidor) values (%s, %s, %s, %s)"
+                                                 , [e[0], software[1], software[2], software[3]])
+    return HttpResponse("ok")
+
+
+def Actualizar_Mantenimiento(request):
+    with connections['default'].cursor() as cursor:
+        cursor.execute("SELECT * FROM sima_equipo")
+        equipo = cursor.fetchall()
+        for e in equipo:
+            with connections['ocs'].cursor() as sima_cursor:
+                sima_cursor.execute("SELECT  ssn, name, PUBLISHER, VERSION FROM sis_hard_fic_pre "
+                                    "WHERE ssn= %s ", [e[1]])
+                softwares = sima_cursor.fetchall()
+                for software in softwares:
+                    with connections['default'].cursor() as sima_save_cursor:
+                        sima_save_cursor.execute("Insert into sima_equipo_software (id_equipo, software, version, distribuidor) values (%s, %s, %s, %s)"
+                                                 , [e[0], software[1], software[2], software[3]])
+    return HttpResponse("ok")
+
+
+

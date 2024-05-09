@@ -6,8 +6,11 @@ from . import views
 
 
 router = routers.DefaultRouter()
+router.register(r'equipo', views.Sima_EquipoViewSet, 'equipo')
 router.register(r'equipos', views.Sima_EquiposViewSet, 'equipos')
 router.register(r'perifericos', views.Sima_PerifericosViewSet, 'perifericos')
+router.register(r'software', views.Sima_SoftwareViewSet, 'software')
+router.register(r'hardware', views.Sima_HardwareViewSet, 'hardware')
 
 urlpatterns = [
     path('api/', include(router.urls)),
