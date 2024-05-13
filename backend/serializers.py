@@ -8,12 +8,17 @@ class Sima_UbicacionSerializer(serializers.ModelSerializer):
         model = sima_unidad
         fields = '__all__'
 
-class Sima_EquipoSerializer(serializers.ModelSerializer):
-    modelo2_data = Sima_UbicacionSerializer(read_only=True)
-    class Meta:
-        model = sima_equipo
+#class Sima_EquipoSerializer(serializers.ModelSerializer):
+#    modelo2_data = Sima_UbicacionSerializer(read_only=True)
+#    class Meta:
+#        model = sima_equipo
         #fields = '__all__'
-        fields =['SSN', 'Nombre', 'SO', 'tipo', 'MACADDR', 'IPADDRESS', 'Semaforo', 'inventario', 'smodel', 'modelo2_data']
+#        fields =['SSN', 'Nombre', 'SO', 'tipo', 'MACADDR', 'IPADDRESS', 'Semaforo', 'inventario', 'smodel', 'modelo2_data']
+
+class Sima_EquipoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = sima_vista_equipo
+        fields = '__all__'
 
 class Sima_PerifericosSerializer(serializers.ModelSerializer):
     class Meta:
@@ -33,5 +38,12 @@ class Sima_ServicioSerializer(serializers.ModelSerializer):
 
 class Sima_HardwareSerializer(serializers.ModelSerializer):
     class Meta:
-        model = sima_hardware
+        model = sima_equipo_hardware
         fields = '__all__'
+
+class Sima_MantenimientoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = sima_mantenimiento
+        fields = '__all__'
+
+

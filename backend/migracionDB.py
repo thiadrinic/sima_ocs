@@ -23,6 +23,25 @@ def migracion_Cursor(request):
                         )
     return HttpResponse("ok")
 
+def migracion_Hardware(request):
+    with connections['default'].cursor() as cursor:
+        cursor.execute("SELECT * FROM sima_equipo")
+        equipo = cursor.fetchall()
+        for e in equipo:
+            with connections['ocs'].cursor() as sima_cursor:
+                sima_cursor.execute(
+                    "SELECT  ssn, smodel, PROCESSORT, RAM, VID_NAME, VID_MEMORY FROM Vista_Equipos "
+                    "WHERE ssn= %s "
+                    "GROUP BY ssn ", [e[1]])
+                hardware = sima_cursor.fetchall()
+                for h in hardware:
+                    with connections['default'].cursor() as sima_save_cursor:
+                        sima_save_cursor.execute(
+                            "insert into sima_hardware(id_equipo, motherboard, processor, memory, gpu, memory_gpu ) values (%s, %s, %s, %s, %s, %s)",
+                            [e[0], h[1], h[2], h[3], h[4], h[5]]
+                        )
+    return HttpResponse("ok")
+
 
 def Actualizar_Ubicacion(request):
     with connections['default'].cursor() as cursor:
@@ -135,15 +154,16 @@ def Actualizar_Mantenimiento(request):
         cursor.execute("SELECT * FROM sima_equipo")
         equipo = cursor.fetchall()
         for e in equipo:
-            with connections['ocs'].cursor() as sima_cursor:
-                sima_cursor.execute("SELECT  ssn, name, PUBLISHER, VERSION FROM sis_hard_fic_pre "
-                                    "WHERE ssn= %s ", [e[1]])
-                softwares = sima_cursor.fetchall()
-                for software in softwares:
+            with connections['sima'].cursor() as sima_cursor:
+                sima_cursor.execute("SELECT ESERIE, PERIODO, FECHA, CODSITIO, CODPISO, CODEPENDENCIA, USUARIO2, CARGO, CHK1, CHK2, CHK3, CHK4, CHK5, CHK6, CHK7, CHK8, CHK9, CHK10, CHK11, OBSERVACIONES, TMANTENIMIENTO "
+                                    "FROM sis_hard_fic_pre "
+                                    "WHERE ESERIE= %s", [e[1]])
+                mantenimiento = sima_cursor.fetchall()
+                for m in mantenimiento:
                     with connections['default'].cursor() as sima_save_cursor:
-                        sima_save_cursor.execute("Insert into sima_equipo_software (id_equipo, software, version, distribuidor) values (%s, %s, %s, %s)"
-                                                 , [e[0], software[1], software[2], software[3]])
+                        sima_save_cursor.execute("INSERT INTO sima_mantenimiento (id_equipo, periodo, fecha, codsitio, codpiso, codependencia, usuario2, cargo, chk1, chk2, chk3, chk4, chk5, chk6, chk7, chk8, chk9, chk10, chk11, observaciones, tmantenimiento) "
+                                                 "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+                                                 [e[0], m[1], m[2], m[3], m[4], m[5], m[6], m[7], m[8], m[9], m[10], m[11], m[12], m[13], m[14], m[15], m[16], m[17], m[18], m[19], m[20]])
     return HttpResponse("ok")
-
 
 

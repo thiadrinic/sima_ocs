@@ -11,6 +11,7 @@ router.register(r'equipos', views.Sima_EquiposViewSet, 'equipos')
 router.register(r'perifericos', views.Sima_PerifericosViewSet, 'perifericos')
 router.register(r'software', views.Sima_SoftwareViewSet, 'software')
 router.register(r'hardware', views.Sima_HardwareViewSet, 'hardware')
+router.register(r'mantenimiento', views.Sima_MantenimientoViewSet, 'mantenimiento')
 
 urlpatterns = [
     path('api/', include(router.urls)),

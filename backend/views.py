@@ -6,11 +6,12 @@ from .models import sima_equipo, sima_unidad
 from .serializers import *
 from .migracionDB import *
 
+from django.db import connection
 
 # Create your views here.
 class Sima_EquipoViewSet(viewsets.ModelViewSet):
     serializer_class = Sima_EquipoSerializer
-    queryset = sima_equipo.objects.all()
+    queryset = sima_vista_equipo.objects.all()
 
 class Sima_EquiposViewSet(viewsets.ModelViewSet):
     serializer_class = Sima_EquipoSerializer
@@ -29,16 +30,13 @@ class Sima_EquiposViewSet(viewsets.ModelViewSet):
                 obj.modelo2_data = None  # Manejar el caso en que ubicacion_id sea None o vacío
             # Agregar el objeto modificado a la lista
             modified_queryset.append(obj)
+
         return modified_queryset
 
 
 class Sima_PerifericosViewSet(viewsets.ModelViewSet):
     serializer_class = Sima_PerifericosSerializer
     queryset = sima_equipo_perifericos.objects.all()
-
-#class Sima_SoftwareViewSet(viewsets.ModelViewSet):
-#    serializer_class = Sima_SoftwareSerializer
-#    queryset = sima_equipo_software.objects.all()
 
 class Sima_SoftwareViewSet(viewsets.ModelViewSet):
     serializer_class = Sima_SoftwareSerializer
@@ -54,7 +52,14 @@ class Sima_SoftwareViewSet(viewsets.ModelViewSet):
 
 class Sima_HardwareViewSet(viewsets.ModelViewSet):
     serializer_class = Sima_HardwareSerializer
-    queryset = sima_hardware.objects.all()
+    queryset = sima_equipo_hardware.objects.all()
+
+
+class Sima_MantenimientoViewSet(viewsets.ModelViewSet):
+    serializer_class = Sima_MantenimientoSerializer
+    queryset = sima_mantenimiento.objects.all()
+
+
 def Pruebas(request):
-    data=Actualizar_Software(request)
+    data=Actualizar_Mantenimiento(request)
     return HttpResponse(data)
